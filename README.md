@@ -1,2 +1,2 @@
-# optimal-complete-portfolio-python-project
-This is a Python project on establishing an optimal complete portfolio.
+# OPTIMAL COMPLETE PORTFOLIO PYTHON PROJECT
+<ins>**Description:**</ins> This is a Python project on establishing an optimal complete portfolio.
