@@ -87,4 +87,5 @@ def export_portfolio_to_xlsx(portfolio: portfolio_characteristics.portfolio, pat
     
     # Close writer
     writer.close()
+    
     return

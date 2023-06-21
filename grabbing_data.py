@@ -1,5 +1,4 @@
 import pandas as pd
-import string
 
 # 'stocks_data' is in pandas.DataFrame datatype.
 

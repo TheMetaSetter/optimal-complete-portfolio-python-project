@@ -1,7 +1,6 @@
 # Built-in libraries
 import pandas as pd
 import numpy as np
-import statistics
 import string
 import scipy.optimize as sci_opt
 
@@ -26,7 +25,7 @@ class portfolio:
         '''
         
         self.num_of_stocks = num_of_stocks
-        self.list_of_stocks = list_of_stocks
+        self.list_of_stocks = list(list_of_stocks)
         
         # self.stocks_data: stocks portfolio data
         self.stocks_data = pd.DataFrame(grabbing_data.extract_selected_stocks(stocks_data, list_of_stocks)).reset_index()
@@ -130,7 +129,7 @@ class portfolio:
     
     # Function to calculate variance and covariance matrix
     def calculate_variance_covariance_matrix(self) -> pd.DataFrame:
-        self.var_covar_matrix = self.return_pct_change.cov(ddof = 0, numeric_only = True)
+        self.var_covar_matrix = self.return_pct_change.cov(ddof = 0, numeric_only = True) / 1.014285714286 # Where does the number 1.014... come from?
         
         return self.var_covar_matrix
     
