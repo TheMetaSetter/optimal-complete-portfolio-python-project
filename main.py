@@ -17,7 +17,7 @@ stocks_data = grabbing_data.beautify_stocks_data(stocks_data)
 list_of_10_stocks = ['HPG', 'NVL', 'BMP', 'GAS', 'MWG', 'SAB', 'IMP', 'MSN', 'VCB', 'VNM']
 
 # Num of stocks in a portfolio
-num_of_stocks_per_port = 4
+num_of_stocks_per_port = 3
 
 # Set date range
 date_range = (pd.to_datetime('2017-05-01'), pd.to_datetime('2023-05-31'))
