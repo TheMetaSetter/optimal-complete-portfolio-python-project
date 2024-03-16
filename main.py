@@ -1,5 +1,6 @@
 # Built-in libraries
 import pandas as pd
+
 # import cvxpy as cp
 
 # User-defined modules
@@ -8,21 +9,23 @@ import optimal_risky_portfolio
 import excel_handling
 
 #Import stocks_data file from data folder
-stocks_data = pd.read_csv('data/CafeF.HSX.Upto23.05.2023.csv')
+stocks_data = pd.read_csv('data/CafeF.HSX.Upto06.02.2024.csv')
 
 # Beautify stocks data
 stocks_data = grabbing_data.beautify_stocks_data(stocks_data)
 
-# List of 10 selected stocks
-list_of_10_stocks = ['HPG', 'NVL', 'BMP', 'GAS', 'MWG', 'SAB', 'IMP', 'MSN', 'VCB', 'VNM']
+# List of stocks in VN30
+vn30_tickers = ["ACB", "BID", "BVH", "FPT", "HDC", "HPG", "IJC", "MSN", "MBB", "MWG",
+                "GAS", "POW", "SHB", "STB", "SAB", "EIB", "SSI", "TCB", "TPB", "VIB", 
+                "VCB", "VJC", "CTG", "PLX", "VPB", "GVR", "VNM", "VRE", "VIC", "VHM"]
 
 # Num of stocks in a portfolio
 num_of_stocks_per_port = 3
 
 # Set date range
-date_range = (pd.to_datetime('2017-05-01'), pd.to_datetime('2023-05-31'))
+date_range = (pd.to_datetime('2018-01-01'), pd.to_datetime('2024-02-06'))
 
-port1 = optimal_risky_portfolio.find_optimal_risky_portfolio(stocks_data, num_of_stocks_per_port, list_of_10_stocks, date_range, risk_tolerance = 18)
+port1 = optimal_risky_portfolio.find_optimal_risky_portfolio(stocks_data, num_of_stocks_per_port, vn30_tickers, date_range, risk_tolerance = 18)
 
 port1.maximize_utility_manual()
 

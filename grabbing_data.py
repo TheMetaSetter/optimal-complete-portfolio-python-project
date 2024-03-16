@@ -10,8 +10,8 @@ def beautify_stocks_data(stocks_data):
     # Rename the 'DTYYYYMMDD' to 'Date'
     stocks_data = stocks_data.rename(columns = {'DTYYYYMMDD': 'Date'})
 
-    # Convert the 'Date' column to a datetime datatype
-    stocks_data['Date'] = pd.to_datetime(stocks_data['Date'], format = 'ISO8601')
+    # Convert the 'Date' column to ISO8601 format
+    stocks_data['Date'] = pd.to_datetime(stocks_data['Date'], format = '%Y%m%d')
     
     return stocks_data
 
