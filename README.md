@@ -7,7 +7,7 @@ The **Optimal Complete Portfolio Establisher** is a Python-based tool designed t
 
 ## Features
 
-- **Data Grabbing**: Collect financial data from different sources.
+- **Data Grabbing**: Collect financial data from [Dữ liệu lịch sử cho MetaStock và AmiBroker](https://s.cafef.vn/du-lieu-download.chn#data){:target="_blank"}.
 - **Portfolio Analysis**: Analyze portfolio characteristics, such as expected return, risk, and optimal allocation.
 - **Risky Portfolio Optimization**: Find the optimal risky portfolio using various financial metrics.
 - **Excel Integration**: Export portfolio characteristics and results to an Excel file for further analysis.
@@ -53,4 +53,4 @@ Contributions are welcome! Please open an issue or submit a pull request for any
 
 ## Contact
 
-For any questions or feedback, feel free to contact [Your Name] at [your.email@example.com].
+For any questions or feedback, feel free to contact [Khoi Nguyen] at [nguyenanhkhoi0608@gmail.com].
