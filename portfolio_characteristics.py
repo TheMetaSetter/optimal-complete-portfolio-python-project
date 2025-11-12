@@ -91,33 +91,10 @@ class portfolio:
         self.meta_data = [self.opt_risk_metrics_df, self.opt_com_metrics_df]
             
     #------------------------------ONE-TIME-USE FUNCTIONS------------------------------
-    # # Function to calculate return percentage change
-    # def calculate_return_pct_change(self) -> pd.DataFrame:
-    #     self.return_pct_change = self.stocks_data.pct_change()
-        
-    #     return self.return_pct_change
-    
-    # CONTINUE TO FIX HERE
+    # Function to calculate return percentage change (vectorized)
     def calculate_return_pct_change(self) -> pd.DataFrame:
-        # Create a copy of stocks data
-        return_pct_change = pd.DataFrame(self.stocks_data)
-
-        # Process on each column of the DataFrame
-        merged_data_frame = None
-        for column in return_pct_change.columns:
-            # Extract the column
-            current_column = return_pct_change[column].copy()  # Make a copy of the column
-            current_column.dropna(inplace = True)  # Drop NaN values in the column
-            temp_data_frame = pd.DataFrame((current_column - current_column.shift(periods = 1)) / current_column.shift(periods = 1))
-
-            if merged_data_frame is None:
-                merged_data_frame = temp_data_frame
-            else:
-                merged_data_frame = pd.merge(merged_data_frame, temp_data_frame, how = 'outer', left_index = True, right_index = True)
-
-        # Assign the merged DataFrame to self.return_pct_change
-        self.return_pct_change = merged_data_frame
-
+        # Percent change per column; first row per column becomes NaN by design
+        self.return_pct_change = self.stocks_data.pct_change()
         return self.return_pct_change
 
     
@@ -129,8 +106,8 @@ class portfolio:
     
     # Function to calculate variance and covariance matrix
     def calculate_variance_covariance_matrix(self) -> pd.DataFrame:
-        self.var_covar_matrix = self.return_pct_change.cov(ddof = 0, numeric_only = True) / 1.014285714286 # Where does the number 1.014... come from?
-        
+        # Covariance of monthly returns. No opaque scaling factor.
+        self.var_covar_matrix = self.return_pct_change.cov(ddof = 0, numeric_only = True)
         return self.var_covar_matrix
     
     # ------------------------------RE-USEABLE FUNCTIONS------------------------------
@@ -302,18 +279,20 @@ class portfolio:
     
     # Function return the utility index (U)
     def com_port_objective_function(self, weights: np.array) -> float:
-        self.maximize_sharpe()
-        
-        # self.weights = [self.risky_weights, self.risk_free_weights]
-        # Calculate expected return of optimal complete portfolio
+        # Ensure optimal risky portfolio metrics are available exactly once
+        if (
+            self.exp_ret_opt_risk is None
+            or self.exp_volatility_opt_risk is None
+            or self.stocks_weights is None
+        ):
+            # Ensure returns are computed before optimizing for Sharpe
+            if self.return_pct_change is None:
+                self.calculate_return_pct_change()
+            # Compute the optimal risky portfolio (done once, then cached)
+            self.maximize_sharpe()
         exp_re_opt_com = weights[0] * self.exp_ret_opt_risk + weights[1] * self.rf_month
-        
-        # Calculate "opt-com" portfolio volatility
         exp_volatility_opt_com = weights[0] * self.exp_volatility_opt_risk
-        
-        # Calculate utility index (U)
         utility_index = exp_re_opt_com - 0.5 * self.risk_tolerance * (exp_volatility_opt_com ** 2)
-        
         return -utility_index
     
     # Function to maximize utility index

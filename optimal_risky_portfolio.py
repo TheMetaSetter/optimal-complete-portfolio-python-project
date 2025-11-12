@@ -7,8 +7,22 @@ import portfolio_characteristics
 import grabbing_data
 
 def find_optimal_risky_portfolio(stocks_data: pd.DataFrame, num_of_stocks_per_port: int, list_of_stocks: list, date_range: tuple, risk_tolerance = 20) -> portfolio_characteristics.portfolio:
-    # Beatify stocks data
-    stocks_data = grabbing_data.beautify_stocks_data(stocks_data)
+    # Ensure input is cleaned/formatted; beautify only if needed
+    needs_beautify = (
+        ('DTYYYYMMDD' in stocks_data.columns)
+        or ('Date' not in stocks_data.columns)
+        or any(('<' in str(c) or '>' in str(c)) for c in stocks_data.columns)
+    )
+    if needs_beautify:
+        stocks_data = grabbing_data.beautify_stocks_data(stocks_data)
+    elif 'Date' in stocks_data.columns:
+        # Make sure 'Date' is datetime
+        try:
+            from pandas.api.types import is_datetime64_any_dtype
+            if not is_datetime64_any_dtype(stocks_data['Date']):
+                stocks_data['Date'] = pd.to_datetime(stocks_data['Date'], errors='coerce')
+        except Exception:
+            stocks_data['Date'] = pd.to_datetime(stocks_data['Date'], errors='coerce')
 
     # Check NaN value
     # print(stocks_data.isna().sum())
